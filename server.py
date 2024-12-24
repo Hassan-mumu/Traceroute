@@ -1,5 +1,8 @@
 import socket
 import threading
+import signal
+import sys
+
 
 def handle_client(client_socket):
     with client_socket:
@@ -11,13 +14,24 @@ def handle_client(client_socket):
             print(f"Données reçues : {data.decode().strip()}")
         print(f"Connexion fermée avec {client_socket.getpeername()}")
 
+server_running = True
+
+def stop_server(signal, frame):
+    global server_running
+    print("\nArrêt du serveur...")
+    server_running = False
+    sys.exit(0)
+
 def start_server(host='0.0.0.0', port=12345):
+    global server_running
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind((host, port))
     server_socket.listen(5)
     print(f"Serveur démarré sur {host}:{port}")
 
-    while True:
+    signal.signal(signal.SIGINT, stop_server)
+
+    while server_running:
         conn, addr = server_socket.accept()
         print(f"Connexion établie avec {addr}")
         client_thread = threading.Thread(target=handle_client, args=(conn,))
@@ -25,4 +39,5 @@ def start_server(host='0.0.0.0', port=12345):
 
 if __name__ == "__main__":
     start_server()
+
 
