@@ -56,7 +56,11 @@ def start_server(host='0.0.0.0', port=12345, output_file=None):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Serveur pour recevoir les résultats de traceroute.")
+    parser = argparse.ArgumentParser(
+        description="Serveur pour recevoir les résultats de traceroute.",
+        epilog="Exemple : python server.py -p 8080 -o resultats.txt"
+    )
+
     parser.add_argument("-p", "--port", type=int, default=12345, help="Port d'écoute du serveur.")
     parser.add_argument("-o", "--output-file", help="Fichier où enregistrer les résultats.")
     args = parser.parse_args()

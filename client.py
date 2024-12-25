@@ -75,7 +75,10 @@ def save_results_to_file(results, output_file):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Client pour exécuter traceroute et envoyer les résultats.")
+    parser = argparse.ArgumentParser(
+        description="Client pour exécuter traceroute et envoyer les résultats.",
+        epilog="Exemple : python client.py google.com -s 192.168.1.1 -p 8080 --progressive"
+    )
     parser.add_argument("target", help="URL ou adresse IP cible.")
     parser.add_argument("-s", "--server", default="127.0.0.1", help="Adresse IP du serveur.")
     parser.add_argument("-p", "--port", type=int, default=12345, help="Port du serveur.")
